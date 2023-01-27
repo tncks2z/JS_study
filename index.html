@@ -4,12 +4,25 @@
 		<title></title>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/main.css" rel="stylesheet" />
 	</head>
 	<body>
-		<h1 id="hello">안녕하세요</h1>
-		<h1 id="hi">ㅎㅇㅎㅇ JS초보에요</h1>
-
+		<div class="js-study1">
+			<h1 id="hello">안녕하세요</h1>
+			<h1 id="hi">ㅎㅇㅎㅇ JS초보에요</h1>
+		</div>
+		<div class="js-study2">
+			<div class="alert-box bg-yellow" id="alert">
+				노란 Alert박스
+				<button class="btn btn-close" onclick="document.getElementById('alert').style.display='none';">닫기</button>
+			</div>
+			<!-- <div class="alert-box bg-green" id="alert">초록 Alert박스</div>
+			<div class="alert-box bg-blue" id="alert">파란 Alert박스</div>
+			<div class="alert-box bg-red f-white" id="alert">빨간 Alert박스</div> -->
+			<button class="btn btn-show bg-black f-white" onclick="document.getElementById('alert').style.display='block';">
+				띄우기
+			</button>
+		</div>
 		<script>
 			// document.getElementById('hello').innerHTML = '안녕';
 			// document.getElementById('hello').style.color = 'red';

@@ -1,0 +1,40 @@
+div {
+	box-sizing: border-box;
+}
+.btn {
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 1.3rem;
+	border: none;
+}
+.bg-yellow {
+	background-color: lemonchiffon;
+}
+.bg-green {
+	background-color: greenyellow;
+}
+.bg-blue {
+	background-color: skyblue;
+}
+.bg-red {
+	background-color: crimson;
+}
+.bg-black {
+	background-color: black;
+}
+.f-white {
+	color: white;
+}
+.btn-show:hover {
+	background-color: #eee;
+	color: black;
+}
+.alert-box {
+	font-size: 1.3rem;
+	width: 70%;
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+	margin: 30px auto;
+	display: none;
+}
