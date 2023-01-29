@@ -7,19 +7,29 @@
 		<link href="css/main.css" rel="stylesheet" />
 	</head>
 	<body>
-		<div class="js-study1">
+		<div class="js study1">
 			<h1 id="hello">안녕하세요</h1>
 			<h1 id="hi">ㅎㅇㅎㅇ JS초보에요</h1>
 		</div>
-		<div class="js-study2">
+		<div class="js study2">
 			<div class="alert-box bg-yellow" id="alert">
 				노란 Alert박스
-				<button class="btn btn-close" onclick="closeAlert()">닫기</button>
+				<button class="btn btn-close" onclick="changeAlertDp('none')">닫기</button>
 			</div>
 			<!-- <div class="alert-box bg-green" id="alert">초록 Alert박스</div>
 			<div class="alert-box bg-blue" id="alert">파란 Alert박스</div>
 			<div class="alert-box bg-red f-white" id="alert">빨간 Alert박스</div> -->
-			<button class="btn btn-show bg-black f-white" onclick="openAlert()"> 띄우기 </button>
+			<button class="btn btn-show bg-black f-white" onclick="changeAlertDp('block')"> 띄우기 </button>
+		</div>
+		<div class="js study3">
+			<div class="alert-box d-flex" id="alert2">
+				<h2 class="f-white" id="alert2-msg">알림창</h2>
+				<button class="btn" onclick="changeAlertDp('none')">닫기</button>
+			</div>
+			<div class="find-btn">
+				<button class="btn bg-blue f-white" onclick="showAlert('flex', '아이디', 'deepskyblue')">아이디 보기</button>
+				<button class="btn bg-green f-white" onclick="showAlert('flex', '비밀번호', 'darkgreen')">비밀번호 보기</button>
+			</div>
 		</div>
 
 		<script>
@@ -27,11 +37,23 @@
 			// document.getElementById('hello').style.color = 'red';
 			// document.getElementById('hi').innerHTML = 'ㅎㅇㅎㅇ JS고수에요';
 			document.getElementById('hello').style.fontSize = '16px';
+
+			// function 기초
 			function openAlert() {
 				document.getElementById('alert').style.display = 'block';
 			}
 			function closeAlert() {
 				document.getElementById('alert').style.display = 'none';
+			}
+
+			// function심화 - 괄호 사용해보기
+			function changeAlertDp(display) {
+				document.getElementById('alert2').style.display = display;
+			}
+			function showAlert(dp, msg, color) {
+				document.getElementById('alert2').style.display = dp;
+				document.getElementById('alert2-msg').innerHTML = msg;
+				document.getElementById('alert2').style.backgroundColor = color;
 			}
 		</script>
 	</body>
