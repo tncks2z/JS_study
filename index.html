@@ -22,13 +22,14 @@
 			<button class="btn btn-show bg-black f-white" onclick="changeAlertDp('block')"> 띄우기 </button>
 		</div>
 		<div class="js study3">
-			<div class="alert-box d-flex" id="alert2">
-				<h2 class="f-white" id="alert2-msg">알림창</h2>
-				<button class="btn" onclick="changeAlertDp('none')">닫기</button>
-			</div>
 			<div class="find-btn">
-				<button class="btn bg-blue f-white" onclick="showAlert('flex', '아이디', 'deepskyblue')">아이디 보기</button>
-				<button class="btn bg-green f-white" onclick="showAlert('flex', '비밀번호', 'darkgreen')">비밀번호 보기</button>
+				<button class="btn bg-blue f-white" onclick="showAlert('아이디', 'deepskyblue')">아이디 보기</button>
+				<button class="btn bg-green f-white" onclick="showAlert('비밀번호', 'darkgreen')">비밀번호 보기</button>
+			</div>
+			<div class="alert-box d-flex" id="alert2">
+				<h2 class="f-white" id="alert2-msg" style="margin: 30px">알림창</h2>
+				<button class="btn" onclick="changeAlertDp('none')">닫기</button>
+				<button class="btn" id="close">addEventListener로 닫기</button>
 			</div>
 		</div>
 
@@ -50,11 +51,16 @@
 			function changeAlertDp(display) {
 				document.getElementById('alert2').style.display = display;
 			}
-			function showAlert(dp, msg, color) {
-				document.getElementById('alert2').style.display = dp;
+			function showAlert(msg, color) {
+				document.getElementById('alert2').style.display = 'flex';
 				document.getElementById('alert2-msg').innerHTML = msg;
 				document.getElementById('alert2').style.backgroundColor = color;
 			}
+
+			// addEventListener학습
+			document.getElementById('close').addEventListener('click', function close() {
+				document.getElementById('alert2').style.display = 'none';
+			});
 		</script>
 	</body>
 </html>
