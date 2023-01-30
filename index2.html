@@ -40,7 +40,7 @@
 		</ul>
 
 		<ul class="list-group" id="list2">
-			<li class="list-group-item">쿼리 셀렉터를</li>
+			<li class="list-group-item">쿼리 셀렉터, JQuery를</li>
 			<li class="list-group-item"> 사용하여 불러낸 </li>
 			<li class="list-group-item">리스트들 입니다</li>
 			<li class="list-group-item">A fourth item</li>
@@ -62,9 +62,9 @@
 			});
 
 			// Queryselector 학습
-			document.querySelector('#toggler2').addEventListener('click', function () {
-				document.querySelector('#list2').classList.toggle('show');
-			});
+			// document.querySelector('#toggler2').addEventListener('click', function () {
+			// 	document.querySelector('#list2').classList.toggle('show');
+			// });
 		</script>
 
 		<script
@@ -80,16 +80,19 @@
 			// JQuery 학습
 			// JQuery는 해당하는 셀렉터를 전부다 한번에 변경함. 뒤에 [0] [1] [2] 요런거 쓸 필요 없음
 			// $('.hello').html('바보');
+			$('#toggler2').on('click', function () {
+				$('#list2').toggleClass('show');
+			});
 			$('.hello').css('color', 'red');
 			$('#test-btn').on('click', function () {
 				$('.hello').css('color', 'blue');
 				$('.hello').fadeOut();
 			});
 			$('#login-btn').on('click', function () {
-				$('#modal').show();
+				$('#modal').addClass('show-modal');
 			});
 			$('#close').on('click', function () {
-				$('#modal').hide();
+				$('#modal').removeClass('show-modal');
 			});
 		</script>
 	</body>
