@@ -83,3 +83,10 @@ div {
 	visibility: visible;
 	opacity: 1;
 }
+.study4 {
+	display: none;
+}
+.main-bg {
+	background-color: #eee;
+	padding: 30px;
+}

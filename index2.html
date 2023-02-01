@@ -10,15 +10,56 @@
 			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
 			crossorigin="anonymous" />
 		<link rel="stylesheet" href="/css/main.css" />
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://code.jquery.com/jquery-3.6.3.min.js"
+			integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+			crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<div class="black-bg" id="modal">
-			<div class="white-bg text-center">
-				<h4>로그인하세요</h4>
-				<button class="btn btn-danger" id="close">닫기</button>
+			<div class="white-bg">
+				<h2 class="mb-3">로그인하세요</h2>
+				<form action="success.html">
+					<div class="mb-3">
+						<label for="inputEmail" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" />
+					</div>
+					<div class="mb-3">
+						<label for="inputPassword" class="form-label">Password</label>
+						<input type="password" class="form-control" id="inputPassword" />
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1" />
+						<label class="form-check-label" for="exampleCheck1">Check me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary" id="submit">전송</button>
+					<button type="button" class="btn btn-danger" id="close">닫기</button>
+				</form>
 			</div>
 		</div>
-
+		<script>
+			$('form').on('submit', function (e) {
+				if (document.getElementById('inputEmail').value == '' || document.getElementById('inputPassword').value == '') {
+					e.preventDefault();
+					document.getElementById('inputEmail').style.borderColor = 'red';
+					document.getElementById('inputPassword').style.borderColor = 'red';
+					document.getElementById('inputEmail').value = '';
+					document.getElementById('inputPassword').value = '';
+					document.getElementById('inputEmail').focus();
+					alert('공백을 채워주세요.');
+				} else if (document.getElementById('inputPassword').value.length < 6) {
+					e.preventDefault();
+					document.getElementById('inputPassword').style.borderColor = 'red';
+					document.getElementById('inputPassword').focus();
+					document.getElementById('inputPassword').value = '';
+					alert('비밀번호는 6글자 이상 입력해주세요.');
+				}
+			});
+		</script>
 		<nav class="navbar navbar-light bg-light">
 			<div class="container-fluid">
 				<span class="navbar-brand">Navbar</span>
@@ -47,14 +88,19 @@
 			<li class="list-group-item">And a fifth one</li>
 		</ul>
 
-		<div class="container">
+		<div class="container study4">
 			<h3 class="hello">안녕</h3>
 			<h3 class="hello">안녕</h3>
 			<h3 class="hello">안녕</h3>
 			<button type="button" class="btn btn-primary" id="test-btn"> 버튼 </button>
-			<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
 		</div>
 
+		<div class="main-bg">
+			<div>
+				<h1>Sales on Shoes</h1>
+				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
+			</div>
+		</div>
 		<script>
 			// toggle 학습
 			document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', function () {
@@ -65,18 +111,7 @@
 			// document.querySelector('#toggler2').addEventListener('click', function () {
 			// 	document.querySelector('#list2').classList.toggle('show');
 			// });
-		</script>
 
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://code.jquery.com/jquery-3.6.3.min.js"
-			integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-			crossorigin="anonymous"></script>
-
-		<script>
 			// JQuery 학습
 			// JQuery는 해당하는 셀렉터를 전부다 한번에 변경함. 뒤에 [0] [1] [2] 요런거 쓸 필요 없음
 			// $('.hello').html('바보');
