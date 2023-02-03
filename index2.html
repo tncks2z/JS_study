@@ -63,6 +63,7 @@
 		<nav class="navbar navbar-light bg-light">
 			<div class="container-fluid">
 				<span class="navbar-brand">Navbar</span>
+				<span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
 				<button class="navbar-toggler" type="button">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -72,6 +73,35 @@
 			</div>
 		</nav>
 
+		<script>
+			let count = 0;
+			$('.badge').on('click', function () {
+				count++;
+				if (count % 2 == 1) {
+					$('.badge').html('Light 🔄');
+					$('.badge').removeClass('bg-dark');
+					$('.badge').addClass('bg-light');
+					$('.badge').css('color', 'black');
+					$('.badge').css('border', '1px solid black');
+					$('body').addClass('dark');
+					$('nav').removeClass('navbar-light bg-light');
+					$('nav').addClass('navbar-dark bg-dark');
+					$('#main-bg').removeClass('main-light-bg');
+					$('#main-bg').addClass('main-dark-bg');
+				} else {
+					$('.badge').html('Dark 🔄');
+					$('.badge').removeClass('bg-light');
+					$('.badge').addClass('bg-dark');
+					$('.badge').css('color', 'white');
+					$('.badge').css('border', '1px solid black');
+					$('body').removeClass('dark');
+					$('nav').removeClass('navbar-dark bg-dark');
+					$('nav').addClass('navbar-light bg-light');
+					$('#main-bg').removeClass('main-dark-bg');
+					$('#main-bg').addClass('main-light-bg');
+				}
+			});
+		</script>
 		<!-- <ul class="list-group">
 			<li class="list-group-item">getElementsByClassName을</li>
 			<li class="list-group-item">사용하여 불러낸</li>
@@ -95,7 +125,7 @@
 			<button type="button" class="btn btn-primary" id="test-btn"> 버튼 </button>
 		</div>
 
-		<div class="main-bg">
+		<div class="main-light-bg" id="main-bg">
 			<div>
 				<h1>Sales on Shoes</h1>
 				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>

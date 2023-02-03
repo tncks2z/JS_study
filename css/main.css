@@ -1,6 +1,12 @@
 div {
 	box-sizing: border-box;
 }
+html,
+body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
 .d-flex {
 	display: flex;
 	justify-content: center;
@@ -86,7 +92,22 @@ div {
 .study4 {
 	display: none;
 }
-.main-bg {
+.main-light-bg {
+	height: 50%;
 	background-color: #eee;
 	padding: 30px;
+}
+.main-dark-bg {
+	height: 50%;
+	background-color: grey;
+	padding: 30px;
+	color: white;
+}
+.dark {
+	background-color: black;
+	color: white;
+}
+.screen-mode {
+	border: 1px solid black;
+	color: black;
 }
