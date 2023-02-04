@@ -67,13 +67,11 @@
 				<button class="navbar-toggler" type="button">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<!-- <button class="navbar-toggler" id="toggler2" type="button">
-					<span class="navbar-toggler-icon"></span>
-				</button> -->
 			</div>
 		</nav>
 
 		<script>
+			// 다크모드 구현
 			let count = 0;
 			$('.badge').on('click', function () {
 				count++;
@@ -102,13 +100,6 @@
 				}
 			});
 		</script>
-		<!-- <ul class="list-group">
-			<li class="list-group-item">getElementsByClassName을</li>
-			<li class="list-group-item">사용하여 불러낸</li>
-			<li class="list-group-item">리스트 입니다</li>
-			<li class="list-group-item">A fourth item</li>
-			<li class="list-group-item">And a fifth one</li>
-		</ul> -->
 
 		<ul class="list-group" id="list2">
 			<li class="list-group-item">쿼리 셀렉터, JQuery를</li>
@@ -131,6 +122,22 @@
 				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
 			</div>
 		</div>
+		<div class="alert alert-danger">
+			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
+		</div>
+		<script>
+			// setTimeout함수 -> 두개의 파라미터가 있는데 처음엔 콜백함수 두번쨰는 ms -> ms후에 함수 실행
+			// setInterval함수 -> ms마다 함수실행
+			var second = 5;
+			setInterval(() => {
+				second = second - 1;
+				if (second != 0) {
+					$('#second').html(second);
+				} else {
+					$('.alert-danger').hide();
+				}
+			}, 1000);
+		</script>
 		<script>
 			// toggle 학습
 			document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', function () {
