@@ -43,20 +43,32 @@
 		</div>
 		<script>
 			$('form').on('submit', function (e) {
-				if (document.getElementById('inputEmail').value == '' || document.getElementById('inputPassword').value == '') {
+				const emailInput = document.getElementById('inputEmail').value;
+				const passwordInput = document.getElementById('inputPassword').value;
+				if (emailInput == '' || passwordInput == '') {
 					e.preventDefault();
 					document.getElementById('inputEmail').style.borderColor = 'red';
 					document.getElementById('inputPassword').style.borderColor = 'red';
-					document.getElementById('inputEmail').value = '';
-					document.getElementById('inputPassword').value = '';
+					emailInput = '';
+					passwordInput = '';
 					document.getElementById('inputEmail').focus();
 					alert('공백을 채워주세요.');
-				} else if (document.getElementById('inputPassword').value.length < 6) {
+				} else if (passwordInput.length < 6) {
 					e.preventDefault();
 					document.getElementById('inputPassword').style.borderColor = 'red';
 					document.getElementById('inputPassword').focus();
-					document.getElementById('inputPassword').value = '';
+					passwordInput = '';
 					alert('비밀번호는 6글자 이상 입력해주세요.');
+				}
+				if ('/\S+@\S+\.\S+/'.test(emailInput)) {
+					alert('이메일 형식에 맞게 작성해주세요');
+					document.getElementById('inputEmail').style.borderColor = 'red';
+					document.getElementById('inputEmail').focus();
+				}
+				if ('/[0-9A-Z]/'.text(passwordInput)) {
+					alert('비밀번호는 숫자와 대문자를 반드시 포함해야합니다');
+					document.getElementById('inputPassword').style.borderColor = 'red';
+					document.getElementById('inputPassword').focus();
 				}
 			});
 		</script>
@@ -122,15 +134,68 @@
 				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
 			</div>
 		</div>
-		<div class="alert alert-danger">
-			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
+
+		<div style="overflow: hidden">
+			<div class="slide-container d-flex">
+				<div class="slide-box">
+					<img src="./img/car1.png" alt="" />
+				</div>
+				<div class="slide-box">
+					<img src="./img/car2.png" alt="" />
+				</div>
+				<div class="slide-box">
+					<img src="./img/car3.png" alt="" />
+				</div>
+			</div>
 		</div>
+		<button class="slide-button-pre">이전</button>
+		<button class="slide-button-1">1</button>
+		<button class="slide-button-2">2</button>
+		<button class="slide-button-3">3</button>
+		<button class="slide-button-next">다음</button>
+		<script>
+			let imgNum = 1;
+			$('.slide-button-1').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(0vw)');
+				imgNum = 1;
+			});
+			$('.slide-button-2').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(-100vw)');
+				imgNum = 2;
+			});
+			$('.slide-button-3').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(-200vw)');
+				imgNum = 3;
+			});
+			$('.slide-button-next').on('click', function () {
+				if (imgNum == 1) {
+					$('.slide-container').css('transform', 'translateX(-100vw)');
+					imgNum = 2;
+				} else if (imgNum == 2) {
+					$('.slide-container').css('transform', 'translateX(-200vw)');
+					imgNum = 3;
+				}
+			});
+			$('.slide-button-pre').on('click', function () {
+				if (imgNum == 3) {
+					$('.slide-container').css('transform', 'translateX(-100vw)');
+					imgNum = 2;
+				} else if (imgNum == 2) {
+					$('.slide-container').css('transform', 'translateX(0vw)');
+					imgNum = 1;
+				}
+			});
+		</script>
+		<!-- <div class="alert alert-danger">
+			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
+		</div> -->
+
 		<script>
 			// setTimeout함수 -> 두개의 파라미터가 있는데 처음엔 콜백함수 두번쨰는 ms -> ms후에 함수 실행
 			// setInterval함수 -> ms마다 함수실행
-			var second = 5;
+			let second = 5;
 			setInterval(() => {
-				second = second - 1;
+				second--;
 				if (second != 0) {
 					$('#second').html(second);
 				} else {
