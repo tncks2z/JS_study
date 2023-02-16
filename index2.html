@@ -42,6 +42,7 @@
 			</div>
 		</div>
 		<script>
+			// 로그인 폼
 			$('form').on('submit', function (e) {
 				const emailInput = document.getElementById('inputEmail').value;
 				const passwordInput = document.getElementById('inputPassword').value;
@@ -81,6 +82,13 @@
 				</button>
 			</div>
 		</nav>
+		<ul class="list-group" id="list2">
+			<li class="list-group-item">쿼리 셀렉터, JQuery를</li>
+			<li class="list-group-item"> 사용하여 불러낸 </li>
+			<li class="list-group-item">리스트들 입니다</li>
+			<li class="list-group-item">A fourth item</li>
+			<li class="list-group-item">And a fifth one</li>
+		</ul>
 
 		<script>
 			// 다크모드 구현
@@ -113,14 +121,6 @@
 			});
 		</script>
 
-		<ul class="list-group" id="list2">
-			<li class="list-group-item">쿼리 셀렉터, JQuery를</li>
-			<li class="list-group-item"> 사용하여 불러낸 </li>
-			<li class="list-group-item">리스트들 입니다</li>
-			<li class="list-group-item">A fourth item</li>
-			<li class="list-group-item">And a fifth one</li>
-		</ul>
-
 		<div class="container study4">
 			<h3 class="hello">안녕</h3>
 			<h3 class="hello">안녕</h3>
@@ -134,75 +134,6 @@
 				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
 			</div>
 		</div>
-
-		<div style="overflow: hidden">
-			<div class="slide-container d-flex">
-				<div class="slide-box">
-					<img src="./img/car1.png" alt="" />
-				</div>
-				<div class="slide-box">
-					<img src="./img/car2.png" alt="" />
-				</div>
-				<div class="slide-box">
-					<img src="./img/car3.png" alt="" />
-				</div>
-			</div>
-		</div>
-		<button class="slide-button-pre">이전</button>
-		<button class="slide-button-1">1</button>
-		<button class="slide-button-2">2</button>
-		<button class="slide-button-3">3</button>
-		<button class="slide-button-next">다음</button>
-		<script>
-			let imgNum = 1;
-			$('.slide-button-1').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(0vw)');
-				imgNum = 1;
-			});
-			$('.slide-button-2').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-100vw)');
-				imgNum = 2;
-			});
-			$('.slide-button-3').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-200vw)');
-				imgNum = 3;
-			});
-			$('.slide-button-next').on('click', function () {
-				if (imgNum == 1) {
-					$('.slide-container').css('transform', 'translateX(-100vw)');
-					imgNum = 2;
-				} else if (imgNum == 2) {
-					$('.slide-container').css('transform', 'translateX(-200vw)');
-					imgNum = 3;
-				}
-			});
-			$('.slide-button-pre').on('click', function () {
-				if (imgNum == 3) {
-					$('.slide-container').css('transform', 'translateX(-100vw)');
-					imgNum = 2;
-				} else if (imgNum == 2) {
-					$('.slide-container').css('transform', 'translateX(0vw)');
-					imgNum = 1;
-				}
-			});
-		</script>
-		<!-- <div class="alert alert-danger">
-			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
-		</div> -->
-
-		<script>
-			// setTimeout함수 -> 두개의 파라미터가 있는데 처음엔 콜백함수 두번쨰는 ms -> ms후에 함수 실행
-			// setInterval함수 -> ms마다 함수실행
-			let second = 5;
-			setInterval(() => {
-				second--;
-				if (second != 0) {
-					$('#second').html(second);
-				} else {
-					$('.alert-danger').hide();
-				}
-			}, 1000);
-		</script>
 		<script>
 			// toggle 학습
 			document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', function () {
@@ -231,6 +162,91 @@
 			$('#close').on('click', function () {
 				$('#modal').removeClass('show-modal');
 			});
+		</script>
+
+		<div style="overflow: hidden">
+			<div class="slide-container d-flex">
+				<div class="slide-box">
+					<img src="./img/car1.png" alt="" />
+				</div>
+				<div class="slide-box">
+					<img src="./img/car2.png" alt="" />
+				</div>
+				<div class="slide-box">
+					<img src="./img/car3.png" alt="" />
+				</div>
+			</div>
+		</div>
+		<nav aria-label="Page navigation example" class="d-flex">
+			<ul class="pagination pagination-lg">
+				<li class="page-item"><a class="page-link slide-pre disabled" href="#">Previous</a></li>
+				<li class="page-item"><a class="page-link slide-1" href="#">1</a></li>
+				<li class="page-item"><a class="page-link slide-2" href="#">2</a></li>
+				<li class="page-item"><a class="page-link slide-3" href="#">3</a></li>
+				<li class="page-item"><a class="page-link slide-next" href="#">Next</a></li>
+			</ul>
+		</nav>
+		<script>
+			//캐러셀 학습
+			let imgNum = 1;
+			let nextButton = $('.slide-next');
+			let preButton = $('.slide-pre');
+			function isFirstOrLastPage(num) {
+				if (num == 3) {
+					nextButton.addClass('disabled');
+				}
+				if (num != 3) {
+					nextButton.removeClass('disabled');
+				}
+				if (num == 1) {
+					preButton.addClass('disabled');
+				}
+				if (num != 1) {
+					preButton.removeClass('disabled');
+				}
+			}
+			$('.slide-1').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(0vw)');
+				imgNum = 1;
+				isFirstOrLastPage(imgNum);
+			});
+			$('.slide-2').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(-100vw)');
+				imgNum = 2;
+				isFirstOrLastPage(imgNum);
+			});
+			$('.slide-3').on('click', function () {
+				$('.slide-container').css('transform', 'translateX(-200vw)');
+				imgNum = 3;
+				isFirstOrLastPage(imgNum);
+			});
+			nextButton.on('click', function () {
+				$('.slide-container').css('transform', `translateX(-${imgNum}00vw)`);
+				imgNum++;
+				isFirstOrLastPage(imgNum);
+			});
+			preButton.on('click', function () {
+				$('.slide-container').css('transform', `translateX(-${imgNum - 2}00vw)`);
+				imgNum--;
+				isFirstOrLastPage(imgNum);
+			});
+		</script>
+		<!-- <div class="alert alert-danger">
+			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
+		</div> -->
+
+		<script>
+			// setTimeout함수 -> 두개의 파라미터가 있는데 처음엔 콜백함수 두번쨰는 ms -> ms후에 함수 실행
+			// setInterval함수 -> ms마다 함수실행
+			let second = 5;
+			setInterval(() => {
+				second--;
+				if (second != 0) {
+					$('#second').html(second);
+				} else {
+					$('.alert-danger').hide();
+				}
+			}, 1000);
 		</script>
 	</body>
 </html>
