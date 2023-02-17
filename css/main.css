@@ -95,7 +95,7 @@ body {
 	display: none;
 }
 .main-light-bg {
-	height: 30%;
+	height: 50%;
 	background-color: #eee;
 	padding: 30px;
 }
@@ -120,4 +120,16 @@ body {
 .slide-box {
 	width: 100vw;
 	float: left;
+}
+.main-title {
+	margin-top: 15rem;
+}
+.navbar {
+	position: fixed;
+	width: 100%;
+	z-index: 5;
+}
+.navbar-brand {
+	font-size: 40px;
+	transition: all 0.3s;
 }
