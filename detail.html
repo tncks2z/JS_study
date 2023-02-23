@@ -81,7 +81,7 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 			</div>
-			<div class="page-process-bar">
+			<div class="page-process-bar" style="margin-top: 5px; margin-bottom: 5px">
 				<div class="page-process-degree"></div>
 			</div>
 		</nav>
@@ -135,13 +135,6 @@
 				}
 			});
 		</script>
-		<div class="container study4">
-			<h3 class="hello">안녕</h3>
-			<h3 class="hello">안녕</h3>
-			<h3 class="hello">안녕</h3>
-			<button type="button" class="btn btn-primary" id="test-btn"> 버튼 </button>
-		</div>
-
 		<div class="main-light-bg" id="main-bg">
 			<div class="main-title">
 				<h1>Sales on Shoes</h1>
@@ -286,7 +279,7 @@
 			In the client–server model, the client is usually considered the frontend and the server is usually considered the
 			backend, even when some presentation work is actually done on the server itself.<br />
 		</div>
-		<div class="alert alert-info mt-1" style="display: none">
+		<div class="alert alert-info m-1 p-2" style="display: none">
 			<h5>약관을 다 읽었습니다</h5>
 			<span id="hiding-second">5</span>초후 약관은 사라집니다
 		</div>
@@ -319,13 +312,6 @@
 			document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', function () {
 				document.getElementsByClassName('list-group')[0].classList.toggle('show');
 			});
-			// Queryselector 학습
-			// document.querySelector('#toggler2').addEventListener('click', function () {
-			// 	document.querySelector('#list2').classList.toggle('show');
-			// });
-			// JQuery 학습
-			// JQuery는 해당하는 셀렉터를 전부다 한번에 변경함. 뒤에 [0] [1] [2] 요런거 쓸 필요 없음
-			// $('.hello').html('바보');
 			$('#toggler2').on('click', function () {
 				$('#list2').toggleClass('show');
 			});
@@ -341,7 +327,6 @@
 				$('#modal').removeClass('show-modal');
 			});
 		</script>
-		<div style="height: 1000px"></div>
 		<div style="overflow: hidden">
 			<div class="slide-container d-flex">
 				<div class="slide-box">
@@ -408,11 +393,6 @@
 				imgNum--;
 				isFirstOrLastPage(imgNum);
 			});
-		</script>
-		<!-- <div class="alert alert-danger">
-			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
-		</div> -->
-		<script>
 			// setTimeout함수 -> 두개의 파라미터가 있는데 처음엔 콜백함수 두번쨰는 ms -> ms후에 함수 실행
 			// setInterval함수 -> ms마다 함수실행
 			let second = 5;
