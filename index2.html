@@ -72,8 +72,21 @@
 					document.getElementById('inputPassword').focus();
 				}
 			});
+			$('#close').on('click', function () {
+				$('#modal').removeClass('show-modal');
+			});
+			$('.black-bg').on('click', function (e) {
+				// e.target // 유저가 실제로 누른거
+				// e.currentTarget // 이벤트리스너 달린 곳
+				// this; // 이벤트리스너 달린 곳
+				// e.preventDefault(); // 이벤트 기본동작을 막아줌
+				// e.stopPropagation(); // 상위요소로 퍼지는 이벤트 버블링 방지
+				if (e.target == e.currentTarget) {
+					$('#modal').removeClass('show-modal');
+				}
+			});
 		</script>
-		<nav class="navbar navbar-light bg-light d-flex">
+		<nav class="navbar navbar-light bg-light d-flex sticky-top z-1">
 			<div class="container-fluid">
 				<span class="navbar-brand">JS Shop</span>
 				<span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
@@ -336,9 +349,6 @@
 			});
 			$('#login-btn').on('click', function () {
 				$('#modal').addClass('show-modal');
-			});
-			$('#close').on('click', function () {
-				$('#modal').removeClass('show-modal');
 			});
 		</script>
 		<div style="height: 1000px"></div>
