@@ -73,7 +73,7 @@
 				}
 			});
 		</script>
-		<nav class="navbar navbar-light bg-light d-flex">
+		<nav class="navbar navbar-light bg-light d-flex sticky-top z-0">
 			<div class="container-fluid">
 				<span class="navbar-brand">JS Shop</span>
 				<span class="badge bg-dark ms-auto mx-3">Dark 🔄</span>
@@ -85,20 +85,7 @@
 				<div class="page-process-degree"></div>
 			</div>
 		</nav>
-		<script>
-			$(window).on('scroll', function () {
-				if (window.scrollY > 150) {
-					$('.navbar-brand').css('font-size', '20px');
-					$('.page-process-bar').css('height', '30px');
-					$('.page-process-degree').css('height', '30px');
-				} else {
-					$('.navbar-brand').css('font-size', '40px');
-					$('.page-process-bar').css('height', '50px');
-					$('.page-process-degree').css('height', '50px');
-				}
-			});
-		</script>
-		<ul class="list-group" id="list2">
+		<ul class="list-group" id="list">
 			<li class="list-group-item">쿼리 셀렉터, JQuery를</li>
 			<li class="list-group-item"> 사용하여 불러낸 </li>
 			<li class="list-group-item">리스트들 입니다</li>
@@ -106,6 +93,19 @@
 			<li class="list-group-item">And a fifth one</li>
 		</ul>
 		<script>
+			$(window).on('scroll', function () {
+				console.log(window.scrollY);
+				if (window.scrollY >= 100) {
+					$('.navbar-brand').css('font-size', '20px');
+				} else {
+					$('.navbar-brand').css('font-size', '40px');
+				}
+				let pageHeight = document.documentElement.scrollHeight; // 현재 페이지 실제높이
+				let pageScroll = window.scrollY; // 현재 페이지 스크롤 양
+				let pageWindowScroll = document.documentElement.clientHeight; // 현재 페이지 화면높이
+				let pagePercentage = (pageScroll / (pageHeight - pageWindowScroll - 5)) * 100;
+				$('.page-process-degree').css('transform', `translateX(-${100 - pagePercentage}%)`);
+			});
 			// 다크모드 구현
 			let count = 0;
 			$('.badge').on('click', function () {
@@ -141,7 +141,62 @@
 				<button type="button" class="btn btn-danger" id="login-btn"> 로그인 </button>
 			</div>
 		</div>
-		<div class="agreement p-3" style="height: 300px; width: 100%; overflow-y: scroll">
+		<style>
+			ul.list {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				border-bottom: 1px solid #ccc;
+			}
+			ul.list::after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			.tab-button {
+				display: block;
+				padding: 10px 20px 10px 20px;
+				float: left;
+				margin-right: -1px;
+				margin-bottom: -1px;
+				color: grey;
+				text-decoration: none;
+				cursor: pointer;
+			}
+			.orange {
+				border-top: 2px solid orange;
+				border-right: 1px solid #ccc;
+				border-bottom: 1px solid white;
+				border-left: 1px solid #ccc;
+				color: black;
+				margin-top: -2px;
+			}
+			.tab-content {
+				display: none;
+				padding: 10px;
+			}
+			.show {
+				display: block;
+			}
+		</style>
+		<div class="container mt-5">
+			<ul class="list">
+				<li class="tab-button orange">Products</li>
+				<li class="tab-button">Information</li>
+				<li class="tab-button">Shipping</li>
+			</ul>
+			<div class="tab-content show">
+				<p>상품설명입니다. Product</p>
+			</div>
+			<div class="tab-content">
+				<p>스펙설명입니다. Information</p>
+			</div>
+			<div class="tab-content">
+				<p>배송정보입니다. Shipping</p>
+			</div>
+		</div>
+		<script src="tab.js"></script>
+		<!-- <div class="agreement p-3" style="height: 300px; width: 100%; overflow-y: scroll">
 			<h3 style="text-align: center">이용약관</h3>
 			In software engineering, the terms frontend and backend (or sometimes referred to as back end or back-end) refer
 			to the separation of concerns between the presentation layer (frontend),<br />
@@ -282,38 +337,36 @@
 		<div class="alert alert-info m-1 p-2" style="display: none">
 			<h5>약관을 다 읽었습니다</h5>
 			<span id="hiding-second">5</span>초후 약관은 사라집니다
-		</div>
+		</div> -->
 		<script>
-			$('.agreement').on('scroll', function () {
-				// div 박스의 scroll 양
-				let agreementScroll = document.querySelector('.agreement').scrollTop;
-				// div 박스의 실제 높이
-				let agreementHeight = document.querySelector('.agreement').scrollHeight;
-				// div 박스의 눈에 보이는 높이
-				let agreementWindowHeight = document.querySelector('.agreement').clientHeight;
-				let second = 5;
-				// 실제 높이(-오차값) = scroll 최대 양 + 눈이 보이는 높이
-				if (agreementScroll + agreementWindowHeight > agreementHeight - 5) {
-					$('.alert-info').css('display', 'block');
-					setInterval(() => {
-						second--;
-						if (second != 0) {
-							$('#hiding-second').html(second);
-						} else {
-							$('.alert-info').css('display', 'none');
-							$('.agreement').css('display', 'none');
-						}
-					}, 1000);
-				}
-			});
-		</script>
-		<script>
+			// $('.agreement').on('scroll', function () {
+			// 	// div 박스의 scroll 양
+			// 	let agreementScroll = document.querySelector('.agreement').scrollTop;
+			// 	// div 박스의 실제 높이
+			// 	let agreementHeight = document.querySelector('.agreement').scrollHeight;
+			// 	// div 박스의 눈에 보이는 높이
+			// 	let agreementWindowHeight = document.querySelector('.agreement').clientHeight;
+			// 	let second = 5;
+			// 	// 실제 높이(-오차값) = scroll 최대 양 + 눈이 보이는 높이
+			// 	if (agreementScroll + agreementWindowHeight > agreementHeight - 5) {
+			// 		$('.alert-info').css('display', 'block');
+			// 		setInterval(() => {
+			// 			second--;
+			// 			if (second != 0) {
+			// 				$('#hiding-second').html(second);
+			// 			} else {
+			// 				$('.alert-info').css('display', 'none');
+			// 				$('.agreement').css('display', 'none');
+			// 			}
+			// 		}, 1000);
+			// 	}
+			// });
 			// toggle 학습
-			document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', function () {
-				document.getElementsByClassName('list-group')[0].classList.toggle('show');
+			$('.navbar-toggler').on('click', function () {
+				$('.list-group').toggleClass('show');
 			});
 			$('#toggler2').on('click', function () {
-				$('#list2').toggleClass('show');
+				$('#list1').toggleClass('show');
 			});
 			$('.hello').css('color', 'red');
 			$('#test-btn').on('click', function () {
@@ -340,13 +393,13 @@
 				</div>
 			</div>
 		</div>
-		<nav aria-label="Page navigation example">
-			<ul class="pagination pagination-lg justify-content-center">
-				<li class="page-item"><a class="page-link slide-pre disabled" href="#">Previous</a></li>
-				<li class="page-item"><a class="page-link slide-1" href="#">1</a></li>
-				<li class="page-item"><a class="page-link slide-2" href="#">2</a></li>
-				<li class="page-item"><a class="page-link slide-3" href="#">3</a></li>
-				<li class="page-item"><a class="page-link slide-next" href="#">Next</a></li>
+		<nav aria-label="Page navigation">
+			<ul class="pagination pagination-lg justify-content-center mb-3">
+				<li class="page-item"><a class="page-link slide-pre disabled">Previous</a></li>
+				<li class="page-item"><a class="page-link slide-1">1</a></li>
+				<li class="page-item"><a class="page-link slide-2">2</a></li>
+				<li class="page-item"><a class="page-link slide-3">3</a></li>
+				<li class="page-item"><a class="page-link slide-next">Next</a></li>
 			</ul>
 		</nav>
 		<script>
@@ -354,6 +407,7 @@
 			let imgNum = 1;
 			let nextButton = $('.slide-next');
 			let preButton = $('.slide-pre');
+			let slideContainer = $('.slide-container');
 			function isFirstOrLastPage(num) {
 				if (num == 3) {
 					nextButton.addClass('disabled');
@@ -369,27 +423,27 @@
 				}
 			}
 			$('.slide-1').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(0vw)');
+				slideContainer.css('transform', 'translateX(0vw)');
 				imgNum = 1;
 				isFirstOrLastPage(imgNum);
 			});
 			$('.slide-2').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-100vw)');
+				slideContainer.css('transform', 'translateX(-100vw)');
 				imgNum = 2;
 				isFirstOrLastPage(imgNum);
 			});
 			$('.slide-3').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-200vw)');
+				slideContainer.css('transform', 'translateX(-200vw)');
 				imgNum = 3;
 				isFirstOrLastPage(imgNum);
 			});
 			nextButton.on('click', function () {
-				$('.slide-container').css('transform', `translateX(-${imgNum}00vw)`);
+				slideContainer.css('transform', `translateX(-${imgNum}00vw)`);
 				imgNum++;
 				isFirstOrLastPage(imgNum);
 			});
 			preButton.on('click', function () {
-				$('.slide-container').css('transform', `translateX(-${imgNum - 2}00vw)`);
+				slideContainer.css('transform', `translateX(-${imgNum - 2}00vw)`);
 				imgNum--;
 				isFirstOrLastPage(imgNum);
 			});
@@ -404,15 +458,6 @@
 					$('.alert-danger').hide();
 				}
 			}, 1000);
-		</script>
-		<script>
-			$(window).on('scroll', function () {
-				let pageHeight = document.documentElement.scrollHeight; // 현재 페이지 실제높이
-				let pageScroll = window.scrollY; // 현재 페이지 스크롤 양
-				let pageWindowScroll = document.documentElement.clientHeight; // 현재 페이지 화면높이
-				let pagePercentage = (pageScroll / (pageHeight - pageWindowScroll - 5)) * 100;
-				$('.page-process-degree').css('transform', `translateX(-${100 - pagePercentage}%)`);
-			});
 		</script>
 	</body>
 </html>
