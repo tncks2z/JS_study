@@ -47,26 +47,34 @@
 			</select>
 		</form>
 		<script>
-			let pantsOption = `
-				<option>26</option>
-				<option>28</option>
-				<option>30</option>
-				<option>32</option>
-				`;
-			let shirtsOption = `
-				<option>95</option>
-				<option>100</option>
-				<option>105</option>
-				<option>110</option>
-				`;
+			// let pantsOption = `
+			// 	<option>26</option>
+			// 	<option>28</option>
+			// 	<option>30</option>
+			// 	<option>32</option>
+			// 	`;
+			// let shirtsOption = `
+			// 	<option>95</option>
+			// 	<option>100</option>
+			// 	<option>105</option>
+			// 	<option>110</option>
+			// 	`;
+			let pantsOption = [28, 30, 32, 34];
+			let shirtsOption = [95, 100, 105];
 			$('#product-size').hide();
-			$('#product-select').change(function (e) {
+			$('#product-select').change((e) => {
 				let productValue = e.currentTarget.value;
 				if (productValue == '셔츠') {
-					$('#product-size').html(shirtsOption);
+					$('#product-size').html('');
+					shirtsOption.forEach((size) => {
+						$('#product-size').append(`<option>${size}</option>`);
+					});
 					$('#product-size').show();
 				} else if (productValue == '바지') {
-					$('#product-size').html(pantsOption);
+					$('#product-size').html('');
+					pantsOption.forEach((size) => {
+						$('#product-size').append(`<option>${size}</option>`);
+					});
 					$('#product-size').show();
 				} else {
 					$('#product-size').hide();
