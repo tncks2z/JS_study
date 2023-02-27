@@ -86,5 +86,30 @@
 			</div>
 		</div>
 		<script src="tab.js"></script>
+		<form class="container my-5 form-group">
+			<p>상품선택</p>
+			<select class="form-select mt-2" id="product-select">
+				<option disabled selected>선택</option>
+				<option>모자</option>
+				<option>셔츠</option>
+			</select>
+			<select class="form-select mt-2" id="product-size">
+				<option>95</option>
+				<option>100</option>
+				<option>105</option>
+				<option>110</option>
+			</select>
+		</form>
+		<script>
+			$('#product-size').hide();
+			$('#product-select').change(function () {
+				let productValue = this.value;
+				if (productValue == '셔츠') {
+					$('#product-size').show();
+				} else {
+					$('#product-size').hide();
+				}
+			});
+		</script>
 	</body>
 </html>
