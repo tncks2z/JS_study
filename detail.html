@@ -20,6 +20,17 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body>
+		<div class="container mt-3">
+			<div class="card p-3">
+				<span id="product-name">상품명</span>
+				<span id="product-price">가격</span>
+			</div>
+		</div>
+		<script>
+			let car = { name: '아반떼', price: [50000, 30000, 40000] };
+			$('#product-name').html(car.name);
+			$('#product-price').html(car.price[0]);
+		</script>
 		<style>
 			ul.list {
 				list-style-type: none;
