@@ -23,33 +23,51 @@
 		<div class="container">
 			<div class="row"></div>
 		</div>
-
 		<script>
 			let products = [
 				{ id: 0, price: 70000, title: 'Blossom Dress' },
 				{ id: 1, price: 50000, title: 'Springfield Shirt' },
 				{ id: 2, price: 60000, title: 'Black Monastery' },
 			];
-
-			$('.row').html('');
-			for (i = 0; i < products.length; i++) {
-				$('.row').append(`
-        <div class="col-sm-4">
-          <img src="https://via.placeholder.com/600" class="w-100" />
-          <h5></h5>
-          <p></p>
-        </div>`);
-				$('.col-sm-4').eq(i).children('h5').html(products[i].title);
-				$('.col-sm-4').eq(i).children('p').html(`가격 : ${products[i].price}`);
-			}
-
-			$.get('https://codingapple1.github.io/price.json')
-				.done(function (data) {
-					console.log(data.price);
-				})
-				.fail(function () {
-					console.log('실패함');
+			function makeProductCard(array) {
+				array.forEach((product) => {
+					$('.row').append(`
+          <div class="col-sm-4">
+            <img src="https://via.placeholder.com/600" class="w-100" />
+            <h5>${product.title}</h5>
+            <p>가격 : ${product.price}</p>
+          </div>`);
 				});
+			}
+			$('.row').html('');
+			makeProductCard(products);
+		</script>
+		<div class="container">
+			<button class="btn btn-danger" id="more">더보기</button>
+		</div>
+		<script>
+			let btnCnt = 0;
+			$('#more').click(function () {
+				if (btnCnt == 0) {
+					$.get('https://codingapple1.github.io/js/more1.json')
+						.done(function (products) {
+							makeProductCard(products);
+							btnCnt++;
+						})
+						.fail(function () {
+							console.log('실패함');
+						});
+				} else if (btnCnt == 1) {
+					$.get('https://codingapple1.github.io/js/more2.json')
+						.done(function (products) {
+							makeProductCard(products);
+							$('#more').hide();
+						})
+						.fail(function () {
+							console.log('실패함');
+						});
+				}
+			});
 		</script>
 	</body>
 </html>
