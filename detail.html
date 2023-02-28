@@ -64,14 +64,13 @@
 			$('#product-size').hide();
 			$('#product-select').change((e) => {
 				let productValue = e.currentTarget.value;
+				$('#product-size').html('');
 				if (productValue == '셔츠') {
-					$('#product-size').html('');
 					shirtsOption.forEach((size) => {
 						$('#product-size').append(`<option>${size}</option>`);
 					});
 					$('#product-size').show();
 				} else if (productValue == '바지') {
-					$('#product-size').html('');
 					pantsOption.forEach((size) => {
 						$('#product-size').append(`<option>${size}</option>`);
 					});

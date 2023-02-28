@@ -20,31 +20,8 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<div class="card-group container">
-			<div class="card">
-				<img src="https://via.placeholder.com/600" />
-				<div class="card-body">
-					<h5>Card title</h5>
-					<p>가격 : 70000</p>
-					<button class="btn btn-danger">주문하기</button>
-				</div>
-			</div>
-			<div class="card">
-				<img src="https://via.placeholder.com/600" />
-				<div class="card-body">
-					<h5>Card title</h5>
-					<p>가격 : 70000</p>
-					<button class="btn btn-danger">주문하기</button>
-				</div>
-			</div>
-			<div class="card">
-				<img src="https://via.placeholder.com/600" />
-				<div class="card-body">
-					<h5>Card title</h5>
-					<p>가격 : 70000</p>
-					<button class="btn btn-danger">주문하기</button>
-				</div>
-			</div>
+		<div class="container">
+			<div class="row"></div>
 		</div>
 
 		<script>
@@ -53,10 +30,26 @@
 				{ id: 1, price: 50000, title: 'Springfield Shirt' },
 				{ id: 2, price: 60000, title: 'Black Monastery' },
 			];
+
+			$('.row').html('');
 			for (i = 0; i < products.length; i++) {
-				$('.card-body').eq(i).children('h5').html(products[i].title);
-				$('.card-body').eq(i).children('p').html(`가격 : ${products[i].price}`);
+				$('.row').append(`
+        <div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100" />
+          <h5></h5>
+          <p></p>
+        </div>`);
+				$('.col-sm-4').eq(i).children('h5').html(products[i].title);
+				$('.col-sm-4').eq(i).children('p').html(`가격 : ${products[i].price}`);
 			}
+
+			$.get('https://codingapple1.github.io/price.json')
+				.done(function (data) {
+					console.log(data.price);
+				})
+				.fail(function () {
+					console.log('실패함');
+				});
 		</script>
 	</body>
 </html>
