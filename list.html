@@ -28,7 +28,14 @@
 				{ id: 0, price: 70000, title: 'Blossom Dress' },
 				{ id: 1, price: 50000, title: 'Springfield Shirt' },
 				{ id: 2, price: 60000, title: 'Black Monastery' },
+				{ id: 3, price: 40000, title: 'Tea Book' },
+				{ id: 4, price: 90000, title: 'Basillur' },
+				{ id: 5, price: 60000, title: 'Tea Legend' },
+				{ id: 6, price: 30000, title: 'Love Story' },
+				{ id: 7, price: 10000, title: 'Summerfield Shirt' },
+				{ id: 8, price: 80000, title: 'Apple Mango' },
 			];
+			let productsCopy = products.slice();
 			function makeProductCard(array) {
 				array.forEach((product) => {
 					$('.row').append(`
@@ -50,8 +57,8 @@
 			$('#more').click(function () {
 				if (btnCnt == 0) {
 					$.get('https://codingapple1.github.io/js/more1.json')
-						.done(function (products) {
-							makeProductCard(products);
+						.done(function (newProducts) {
+							makeProductCard(newProducts);
 							btnCnt++;
 						})
 						.fail(function () {
@@ -59,8 +66,8 @@
 						});
 				} else if (btnCnt == 1) {
 					$.get('https://codingapple1.github.io/js/more2.json')
-						.done(function (products) {
-							makeProductCard(products);
+						.done(function (newProducts) {
+							makeProductCard(newProducts);
 							$('#more').hide();
 						})
 						.fail(function () {
@@ -75,21 +82,54 @@
 			// });
 			// console.log(array);
 		</script>
-		<div class="container my-3">
+		<div class="container input-group my-3">
+			<input type="text" class="form-control" id="priceFilterInput" placeholder="필터링 가격을 입력해주세요" />
+			<button class="btn btn-danger" type="button" id="priceFilterButton">상품보기</button>
+		</div>
+		<script>
+			let userInputValue = '';
+			$('#priceFilterInput').on('input', function () {
+				userInputValue = $('#priceFilterInput').val();
+			});
+			$('#priceFilterButton').click(function () {
+				let underUserFilter = productsCopy.filter(function (product) {
+					return product.price <= userInputValue;
+				});
+				$('#priceFilterInput').val('');
+				$('.row').html('');
+				makeProductCard(underUserFilter);
+			});
+		</script>
+		<div class="container my-3 ms-4">
 			<button class="btn btn-danger" id="orderByPrice">가격순으로 정렬</button>
-			<button class="btn btn-danger" id="orderByName">이름순으로 정렬</button>
-			<button class="btn btn-danger" id="filterUnder6">6만원 이하 상품보기</button>
+			<button class="btn btn-danger" id="orderByName">가나다순으로 정렬</button>
+			<button class="btn btn-danger" id="orderByReverseName">다나가순으로 정렬</button>
+			<button class="btn btn-danger" id="filterUnder6">5만원 이하 상품보기</button>
+			<button class="btn btn-danger" id="filterReset">필터초기화</button>
 		</div>
 		<script>
 			$('#orderByPrice').click(function () {
-				products.sort(function (a, b) {
+				productsCopy.sort(function (a, b) {
 					return a.price - b.price;
 				});
 				$('.row').html('');
-				makeProductCard(products);
+				makeProductCard(productsCopy);
 			});
 			$('#orderByName').click(function () {
-				products.sort(function (a, b) {
+				productsCopy.sort(function (a, b) {
+					if (a.title < b.title) {
+						return -1;
+					}
+					if (a.title > b.title) {
+						return 1;
+					}
+					return 0;
+				});
+				$('.row').html('');
+				makeProductCard(productsCopy);
+			});
+			$('#orderByReverseName').click(function () {
+				productsCopy.sort(function (a, b) {
 					if (a.title < b.title) {
 						return 1;
 					}
@@ -99,14 +139,18 @@
 					return 0;
 				});
 				$('.row').html('');
-				makeProductCard(products);
+				makeProductCard(productsCopy);
 			});
 			$('#filterUnder6').click(function () {
-				let underSix = products.filter(function (a) {
+				let underSix = productsCopy.filter(function (a) {
 					return a.price <= 60000;
 				});
 				$('.row').html('');
 				makeProductCard(underSix);
+			});
+			$('#filterReset').click(function () {
+				$('.row').html('');
+				makeProductCard(products);
 			});
 		</script>
 	</body>
