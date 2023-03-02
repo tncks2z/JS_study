@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="row"></div>
+			<div class="row mb-3 g-2"></div>
 		</div>
 		<script>
 			let products = [
@@ -39,10 +39,11 @@
 			function makeProductCard(array) {
 				array.forEach((product) => {
 					$('.row').append(`
-          <div class="col-sm-4">
+          <div class="col-sm-4 g-4">
             <img src="https://via.placeholder.com/600" class="w-100" />
             <h5>${product.title}</h5>
-            <p>가격 : ${product.price}</p>
+            <p class='mb-2'>가격 : ${product.price}</p>
+						<button class='btn btn-outline-primary buy' type="button">구매</button>
           </div>`);
 				});
 			}
@@ -100,7 +101,7 @@
 				makeProductCard(underUserFilter);
 			});
 		</script>
-		<div class="container my-3 ms-4">
+		<div class="container my-3">
 			<button class="btn btn-danger" id="orderByPrice">가격순으로 정렬</button>
 			<button class="btn btn-danger" id="orderByName">가나다순으로 정렬</button>
 			<button class="btn btn-danger" id="orderByReverseName">다나가순으로 정렬</button>
@@ -151,6 +152,25 @@
 			$('#filterReset').click(function () {
 				$('.row').html('');
 				makeProductCard(products);
+			});
+			$('.buy').click((item) => {
+				let cartItem = item.currentTarget.previousElementSibling.previousElementSibling.textContent;
+				if (localStorage.length == 0) {
+					let cartArr = [];
+					cartArr.push(cartItem);
+					localStorage.setItem('cartArr', JSON.stringify(cartArr));
+					console.log(cartArr);
+					alert('상품이 장바구니에 추가되었습니다');
+				} else {
+					let cartArr = JSON.parse(localStorage.getItem('cartArr'));
+					if (cartArr.includes(cartItem)) {
+						alert('이미 장바구니에 추가된 상품입니다.');
+					} else {
+						cartArr.push(cartItem);
+						localStorage.setItem('cartArr', JSON.stringify(cartArr));
+						alert('상품이 장바구니에 추가되었습니다');
+					}
+				}
 			});
 		</script>
 	</body>
