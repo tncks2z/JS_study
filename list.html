@@ -155,7 +155,7 @@
 			});
 			$('.buy').click((e) => {
 				let cartItem = $(e.currentTarget).siblings('h5').text();
-				if (localStorage.length == 0) {
+				if (localStorage.getItem('cartArr') == null) {
 					let cartArr = [];
 					cartArr.push(cartItem);
 					localStorage.setItem('cartArr', JSON.stringify(cartArr));
