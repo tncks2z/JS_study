@@ -153,8 +153,8 @@
 				$('.row').html('');
 				makeProductCard(products);
 			});
-			$('.buy').click((item) => {
-				let cartItem = item.currentTarget.previousElementSibling.previousElementSibling.textContent;
+			$('.buy').click((e) => {
+				let cartItem = $(e.currentTarget).siblings('h5').text();
 				if (localStorage.length == 0) {
 					let cartArr = [];
 					cartArr.push(cartItem);
