@@ -109,7 +109,7 @@ body {
 }
 .slide-container {
 	width: 300vw;
-	transition: all 0.5s;
+	/* transition: all 0.5s; */
 }
 .slide-box {
 	width: 100vw;
@@ -137,6 +137,9 @@ body {
 	background-color: rgb(33, 54, 54);
 	height: 30px;
 	transform: translateX(-100%);
+}
+.soft-animation {
+	transition: all 0.5s;
 }
 .list-group {
 	/* position: fixed; */

@@ -355,13 +355,13 @@
 		<div style="overflow: hidden">
 			<div class="slide-container d-flex">
 				<div class="slide-box">
-					<img src="./img/car1.png" alt="" />
+					<img src="./img/car1.png" alt="" draggable="false" />
 				</div>
 				<div class="slide-box">
-					<img src="./img/car2.png" alt="" />
+					<img src="./img/car2.png" alt="" draggable="false" />
 				</div>
 				<div class="slide-box">
-					<img src="./img/car3.png" alt="" />
+					<img src="./img/car3.png" alt="" draggable="false" />
 				</div>
 			</div>
 		</div>
@@ -418,6 +418,43 @@
 				imgNum--;
 				isFirstOrLastPage(imgNum);
 			});
+
+			// 캐러셀 드래그시 이미지 변동
+			// mousedown : 마우스를 눌렀을 때
+			// mouseup : 마우스를 뗐을 때
+			// mousemove : 마우스를 움직였을 때
+			let startX = 0;
+			let isMouseDown = false;
+			let goNext = false;
+			$('.slide-box')
+				.eq(0)
+				.on('mousedown', function (e) {
+					startX = e.clientX;
+					isMouseDown = true;
+					$('.slide-container').removeClass('soft-animation');
+				});
+			$('.slide-box')
+				.eq(0)
+				.on('mousemove', function (e) {
+					if (isMouseDown) {
+						$('.slide-container').css('transform', `translateX(${e.clientX - startX}px)`);
+						if (e.clientX - startX < -200) {
+							goNext = true;
+						}
+					}
+				});
+			$('.slide-box')
+				.eq(0)
+				.on('mouseup', function (e) {
+					isMouseDown = false;
+					if (goNext) {
+						$('.slide-container').addClass('soft-animation');
+						$('.slide-container').css('transform', 'translateX(-100vw)');
+					} else {
+						$('.slide-container').addClass('soft-animation');
+						$('.slide-container').css('transform', 'translateX(0vw)');
+					}
+				});
 		</script>
 		<!-- <div class="alert alert-danger">
 			<h4><span id="second">5</span>초 이내 구매시 사은품 증정!</h4>
