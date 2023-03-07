@@ -138,9 +138,6 @@ body {
 	height: 30px;
 	transform: translateX(-100%);
 }
-.soft-animation {
-	transition: all 0.5s;
-}
 .list-group {
 	/* position: fixed; */
 }

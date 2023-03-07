@@ -367,11 +367,11 @@
 		</div>
 		<nav aria-label="Page navigation example">
 			<ul class="pagination pagination-lg justify-content-center">
-				<li class="page-item"><a class="page-link slide-pre disabled" href="#">Previous</a></li>
-				<li class="page-item"><a class="page-link slide-1" href="#">1</a></li>
-				<li class="page-item"><a class="page-link slide-2" href="#">2</a></li>
-				<li class="page-item"><a class="page-link slide-3" href="#">3</a></li>
-				<li class="page-item"><a class="page-link slide-next" href="#">Next</a></li>
+				<li class="page-item"><button class="page-link slide-pre disabled">Previous</button></li>
+				<li class="page-item"><button class="page-link slide-1">1</button></li>
+				<li class="page-item"><button class="page-link slide-2">2</button></li>
+				<li class="page-item"><button class="page-link slide-3">3</button></li>
+				<li class="page-item"><button class="page-link slide-next">Next</button></li>
 			</ul>
 		</nav>
 		<script>
@@ -393,28 +393,22 @@
 					preButton.removeClass('disabled');
 				}
 			}
-			$('.slide-1').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(0vw)');
-				imgNum = 1;
-				isFirstOrLastPage(imgNum);
-			});
-			$('.slide-2').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-100vw)');
-				imgNum = 2;
-				isFirstOrLastPage(imgNum);
-			});
-			$('.slide-3').on('click', function () {
-				$('.slide-container').css('transform', 'translateX(-200vw)');
-				imgNum = 3;
-				isFirstOrLastPage(imgNum);
-			});
+			for (let i = 0; i < 3; i++) {
+				$(`.slide-${i + 1}`).on('click', function () {
+					$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-${i}00vw)`);
+					imgNum = i + 1;
+					isFirstOrLastPage(imgNum);
+				});
+			}
 			nextButton.on('click', function () {
-				$('.slide-container').css('transform', `translateX(-${imgNum}00vw)`);
+				$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-${imgNum}00vw)`);
 				imgNum++;
 				isFirstOrLastPage(imgNum);
 			});
 			preButton.on('click', function () {
-				$('.slide-container').css('transform', `translateX(-${imgNum - 2}00vw)`);
+				$('.slide-container')
+					.css('transition', 'all 0.5s')
+					.css('transform', `translateX(-${imgNum - 2}00vw)`);
 				imgNum--;
 				isFirstOrLastPage(imgNum);
 			});
@@ -423,6 +417,7 @@
 			// mousedown : 마우스를 눌렀을 때
 			// mouseup : 마우스를 뗐을 때
 			// mousemove : 마우스를 움직였을 때
+
 			let startX = 0;
 			let isMouseDown = false;
 			let goNext = false;
@@ -431,15 +426,21 @@
 				.on('mousedown', function (e) {
 					startX = e.clientX;
 					isMouseDown = true;
-					$('.slide-container').removeClass('soft-animation');
 				});
 			$('.slide-box')
 				.eq(0)
 				.on('mousemove', function (e) {
 					if (isMouseDown) {
-						$('.slide-container').css('transform', `translateX(${e.clientX - startX}px)`);
-						if (e.clientX - startX < -200) {
-							goNext = true;
+						if (e.clientX - startX > 0) {
+							$('.slide-container').css('transform', `translateX(0px)`);
+						} else {
+							$('.slide-container').css(
+								'transform',
+								`translateX(${((e.clientX - startX) / document.documentElement.clientWidth) * 100}vw)`
+							);
+							if (e.clientX - startX < -200) {
+								goNext = true;
+							}
 						}
 					}
 				});
@@ -448,11 +449,43 @@
 				.on('mouseup', function (e) {
 					isMouseDown = false;
 					if (goNext) {
-						$('.slide-container').addClass('soft-animation');
-						$('.slide-container').css('transform', 'translateX(-100vw)');
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-100vw)`);
 					} else {
-						$('.slide-container').addClass('soft-animation');
-						$('.slide-container').css('transform', 'translateX(0vw)');
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(0vw)`);
+					}
+					setTimeout(() => {
+						$('.slide-container').css('transition', 'none');
+					}, 500);
+					goNext = false;
+				});
+			$('.slide-box')
+				.eq(1)
+				.on('mousedown', function (e) {
+					$('.slide-container').css('transform', `translateX(-100vw)`);
+					startX = e.clientX;
+					isMouseDown = true;
+				});
+			$('.slide-box')
+				.eq(1)
+				.on('mousemove', function (e) {
+					if (isMouseDown) {
+						$('.slide-container').css(
+							'transform',
+							`translateX(${((e.clientX - startX) / document.documentElement.clientWidth) * 100 - 100} vw)`
+						);
+						if (e.clientX - startX < -200) {
+							goNext = true;
+						}
+					}
+				});
+			$('.slide-box')
+				.eq(1)
+				.on('mouseup', function (e) {
+					isMouseDown = false;
+					if (goNext) {
+						$('.slide-container').css('transform', `translateX(-200vw)`);
+					} else {
+						$('.slide-container').css('transform', `translateX(-100vw)`);
 					}
 				});
 		</script>
