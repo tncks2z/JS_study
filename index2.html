@@ -421,6 +421,7 @@
 			let startX = 0;
 			let isMouseDown = false;
 			let goNext = false;
+			let goBefore = false;
 			$('.slide-box')
 				.eq(0)
 				.on('mousedown', function (e) {
@@ -469,12 +470,11 @@
 				.eq(1)
 				.on('mousemove', function (e) {
 					if (isMouseDown) {
-						$('.slide-container').css(
-							'transform',
-							`translateX(${((e.clientX - startX) / document.documentElement.clientWidth) * 100 - 100} vw)`
-						);
+						$('.slide-container').css('transform', `translateX(calc(${e.clientX - startX}px - 100vw))`);
 						if (e.clientX - startX < -200) {
 							goNext = true;
+						} else if (e.clientX - startX > 200) {
+							goBefore = true;
 						}
 					}
 				});
@@ -483,10 +483,52 @@
 				.on('mouseup', function (e) {
 					isMouseDown = false;
 					if (goNext) {
-						$('.slide-container').css('transform', `translateX(-200vw)`);
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-200vw)`);
+					} else if (goBefore) {
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(0vw)`);
 					} else {
-						$('.slide-container').css('transform', `translateX(-100vw)`);
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-100vw)`);
 					}
+					setTimeout(() => {
+						$('.slide-container').css('transition', 'none');
+					}, 500);
+					goNext = false;
+					goBefore = false;
+				});
+			$('.slide-box')
+				.eq(2)
+				.on('mousedown', function (e) {
+					$('.slide-container').css('transform', `translateX(-200vw)`);
+					startX = e.clientX;
+					isMouseDown = true;
+				});
+			$('.slide-box')
+				.eq(2)
+				.on('mousemove', function (e) {
+					if (isMouseDown) {
+						if (e.clientX - startX < 0) {
+							$('.slide-container').css('transform', `translateX(-200vw)`);
+						} else {
+							$('.slide-container').css('transform', `translateX(calc(${e.clientX - startX}px - 200vw))`);
+						}
+						if (e.clientX - startX > 200) {
+							goBefore = true;
+						}
+					}
+				});
+			$('.slide-box')
+				.eq(2)
+				.on('mouseup', function (e) {
+					isMouseDown = false;
+					if (goBefore) {
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-100vw)`);
+					} else {
+						$('.slide-container').css('transition', 'all 0.5s').css('transform', `translateX(-200vw)`);
+					}
+					setTimeout(() => {
+						$('.slide-container').css('transition', 'none');
+					}, 500);
+					goBefore = false;
 				});
 		</script>
 		<!-- <div class="alert alert-danger">
