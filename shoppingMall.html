@@ -20,7 +20,7 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+		<nav class="navbar navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
 			<div class="container-fluid">
 				<a class="navbar-brand h1 m-1 me-3" href="#">집꾸미기</a>
 				<button
@@ -45,50 +45,15 @@
 		<div class="bg-main">
 			<div class="product-container container pt-3 mb-3">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" placeholder="검색어 입력" />
+					<input
+						type="text"
+						class="form-control"
+						placeholder="검색어 입력"
+						aria-label="Recipient's username"
+						aria-describedby="button-addon2" />
+					<button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
 				</div>
-				<div class="product-list d-flex flex-wrap justify-content-between">
-					<div class="card" style="width: 18rem">
-						<img src="..." class="card-img-top" alt="..." />
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text"
-								>Some quick example text to build on the card title and make up the bulk of the card's content.</p
-							>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-					<div class="card" style="width: 18rem">
-						<img src="..." class="card-img-top" alt="..." />
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text"
-								>Some quick example text to build on the card title and make up the bulk of the card's content.</p
-							>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-					<div class="card" style="width: 18rem">
-						<img src="..." class="card-img-top" alt="..." />
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text"
-								>Some quick example text to build on the card title and make up the bulk of the card's content.</p
-							>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-					<div class="card" style="width: 18rem">
-						<img src="..." class="card-img-top" alt="..." />
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text"
-								>Some quick example text to build on the card title and make up the bulk of the card's content.</p
-							>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
+				<div class="product-list d-flex flex-wrap justify-content-between"></div>
 			</div>
 			<div class="cart-container container p-4">
 				<h5 class="ms-2">장바구니</h5>
@@ -97,5 +62,28 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			// 데이터 형성 시  html 추가
+			function makeProductCard(array) {
+				array.forEach((product) => {
+					$('.product-list').append(`
+              <div class="card" style="width: 18rem">
+                <img src="/img/${product.photo}" class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">${product.title}</h5>
+                  <p class="f-grey">${product.brand}</p>
+                  <p class="card-text">가격 : ${product.price}</p>
+                  <button class="btn btn-dark">담기</button>
+                </div>
+              </div>`);
+				});
+			}
+			// ajax를 사용한 데이터 request
+			$.get('store.json').done((data) => makeProductCard(data.products));
+			// input value 받아오기
+			$('#userInput').change((e) => {
+				console.log(e.target.value);
+			});
+		</script>
 	</body>
 </html>
