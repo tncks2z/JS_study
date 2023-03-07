@@ -1,0 +1,17 @@
+.bg-main {
+	background-color: #eee;
+}
+.input-group {
+	width: 35%;
+}
+.cart-container {
+	background-color: lightgrey;
+	height: 400px;
+}
+.cart {
+	background-color: black;
+	height: 300px;
+}
+.f-white {
+	color: white;
+}
