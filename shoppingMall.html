@@ -20,19 +20,9 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
+		<nav class="navbar navbar-expand bg-dark sticky-top" data-bs-theme="dark">
 			<div class="container-fluid">
 				<a class="navbar-brand h1 m-1 me-3" href="#">집꾸미기</a>
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNavAltMarkup"
-					aria-controls="navbarNavAltMarkup"
-					aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
 						<a class="nav-link m-1 active" aria-current="page" href="#">Home</a>
@@ -48,10 +38,11 @@
 					<input
 						type="text"
 						class="form-control"
+						id="searchInput"
 						placeholder="검색어 입력"
 						aria-label="Recipient's username"
-						aria-describedby="button-addon2" />
-					<button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
+						aria-describedby="findItem" />
+					<button class="btn btn-outline-secondary" type="button" id="findItem">검색</button>
 				</div>
 				<div class="product-list d-flex flex-wrap justify-content-between"></div>
 			</div>
@@ -66,23 +57,46 @@
 			// 데이터 형성 시  html 추가
 			function makeProductCard(array) {
 				array.forEach((product) => {
-					$('.product-list').append(`
-              <div class="card" style="width: 18rem">
-                <img src="/img/${product.photo}" class="card-img-top" alt="..." />
-                <div class="card-body">
-                  <h5 class="card-title">${product.title}</h5>
-                  <p class="f-grey">${product.brand}</p>
-                  <p class="card-text">가격 : ${product.price}</p>
-                  <button class="btn btn-dark">담기</button>
-                </div>
-              </div>`);
+					$('.product-list').append(
+						`<div class="card" style="width: 18rem">
+              <img src="/img/${product.photo}" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">${product.title}</h5>
+                <p class="f-grey">${product.brand}</p>
+                <p class="card-text">가격 : ${product.price}</p>
+                <button class="btn btn-dark">담기</button>
+              </div>
+            </div>`
+					);
 				});
 			}
 			// ajax를 사용한 데이터 request
-			$.get('store.json').done((data) => makeProductCard(data.products));
+			let products = [];
+			let productsCopy = [];
+			$.get('store.json').done((data) => {
+				makeProductCard(data.products);
+				products = data.products;
+				productsCopy = data.products;
+			});
 			// input value 받아오기
-			$('#userInput').change((e) => {
-				console.log(e.target.value);
+			let searchInput = '';
+			$('#searchInput').on('input', () => {
+				searchInput = $('#searchInput').val();
+			});
+			$('#findItem').click(() => {
+				console.log(searchInput.length);
+				if (searchInput.length == 0) {
+					$('.product-list').html('');
+					makeProductCard(products);
+				} else {
+					let itemSearched = productsCopy.filter((product) => {
+						return product.title.includes(searchInput);
+					});
+					searchInput = '';
+					$('#searchInput').val('');
+					$('.product-list').html('');
+					makeProductCard(itemSearched);
+				}
 			});
 		</script>
 	</body>
