@@ -7,15 +7,18 @@
 }
 .cart-container {
 	background-color: lightgrey;
-	height: 400px;
+	height: 500px;
 }
 .cart {
 	background-color: black;
-	height: 300px;
+	height: 400px;
 }
 .f-white {
 	color: white;
 }
 .f-grey {
 	color: darkgrey;
+}
+.d-hide {
+	display: none;
 }

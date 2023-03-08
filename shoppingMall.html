@@ -47,8 +47,10 @@
 			</div>
 			<div class="cart-container container p-4">
 				<h5 class="ms-2">장바구니</h5>
-				<div class="cart d-flex justify-content-evenly align-items-center">
-					<h5 class="f-white">여기로 드래그</h5>
+				<div
+					class="cart d-flex justify-content-evenly align-items-center"
+					ondrop="dropItem(event)"
+					ondragover="allowDrop(event)">
 				</div>
 			</div>
 		</div>
@@ -57,15 +59,24 @@
 			function makeProductCard(array) {
 				array.forEach((product) => {
 					$('.product-list').append(
-						`<div class="card" style="width: 18rem" draggable="true">
-              <img src="/img/${product.photo}" class="card-img-top" alt="..." draggable="false"/>
-              <div class="card-body">
-                <h5 class="card-title">${product.title}</h5>
-                <p class="f-grey">${product.brand}</p>
-                <p class="card-text">가격 : ${product.price}</p>
-                <button class="btn btn-dark">담기</button>
+						`<div class="card" id="item${product.id}" style="width: 18rem" draggable="true" ondragstart="dragItem(event)">
+                <img src="/img/${product.photo}" class="card-img-top" alt="..." draggable="false"/>
+                <div class="card-body">
+                  <h5 class="card-title">${product.title}</h5>
+                  <p class="f-grey">${product.brand}</p>
+                  <p class="card-text">가격 : ${product.price}</p>
+                  <button class="btn btn-dark">담기</button>
+                </div>
               </div>
-            </div>`
+              <div class="card cart-item d-hide" id="cart-item${product.id}" style="width: 14rem;" draggable="true">
+                <img src="/img/${product.photo}" class="card-img-top" style="width: auto" alt="..." draggable="false" />
+                <div class="card-body text-center">
+                  <h5 class="card-title">${product.title}</h5>
+                  <p class="f-grey">${product.brand}</p>
+                  <p class="card-text">${product.price}</p>
+                  <input type="text" class="form-control" placeholder="수량 입력" />
+                </div>
+              </div>`
 					);
 				});
 			}
@@ -94,6 +105,24 @@
 					makeProductCard(products);
 				}
 			});
+			// 장바구니 기능
+			if ($('.cart').children('.card').length == 0) {
+				$('.cart').append(`<h5 class="f-white">여기로 드래그</h5>`);
+			}
+			function allowDrop(e) {
+				e.preventDefault();
+			}
+			function dragItem(e) {
+				e.dataTransfer.setData('itemId', `cart-${e.target.id}`);
+			}
+			function dropItem(e) {
+				e.preventDefault();
+				$('h5').remove('.f-white');
+				let data = e.dataTransfer.getData('itemId');
+				$(`#${data}`).removeClass('d-hide');
+				e.target.appendChild(document.getElementById(data));
+				console.log(data);
+			}
 		</script>
 	</body>
 </html>
