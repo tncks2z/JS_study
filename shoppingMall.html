@@ -20,51 +20,6 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<script>
-			// 데이터 형성 시  html 추가
-			function makeProductCard(array) {
-				array.forEach((product) => {
-					$('.product-list').append(
-						`
-            <div class="col-3">
-              <div class="card" id="item${product.id}" data-id="${product.id}" style="width: 18rem" draggable="true" ondragstart="dragItem(event)">
-                  <img src="/img/${product.photo}" class="card-img-top" alt="..." draggable="false"/>
-                  <div class="card-body">
-                    <h5 class="card-title">${product.title}</h5>
-                    <p class="f-grey">${product.brand}</p>
-                    <p class="card-text">가격 : ${product.price}</p>
-                    <button type="button" class="btn btn-dark item-add">담기</button>
-                  </div>
-                </div>
-                <div class="card cart-item d-hide" id="cart-item${product.id}" data-id="${product.id}" style="width: 14rem;" draggable="false">
-                  <img src="/img/${product.photo}" class="card-img-top" style="width: auto" alt="..." draggable="false" />
-                  <div class="card-body text-center">
-                    <h5 class="card-title">${product.title}</h5>
-                    <p class="f-grey">${product.brand}</p>
-                    <p class="card-text">${product.price}</p>
-                    <input type="text" class="form-control" id="itemNum${product.id}" placeholder="수량 입력" />
-                  </div>
-                </div>
-              </div>
-              `
-					);
-				});
-			}
-			function makeCartList(dataId) {
-				// console.log(document.getElementById(`cart-item${dataId}`));
-				$('h5').remove('.f-white');
-				$(`#cart-item${dataId}`).removeClass('d-hide');
-				$('.cart')[0].appendChild(document.getElementById(`cart-item${dataId}`));
-			}
-			// ajax를 사용한 데이터 request
-			let products = [];
-			let productsCopy = [];
-			$.get('store.json').done((data) => {
-				makeProductCard(data.products);
-				products = data.products;
-				productsCopy = data.products;
-			});
-		</script>
 		<nav class="navbar navbar-expand bg-dark sticky-top" data-bs-theme="dark">
 			<div class="container-fluid">
 				<a class="navbar-brand h1 m-1 me-3" href="#">집꾸미기</a>
@@ -90,8 +45,7 @@
 				</div>
 				<div class="product-list row g-5"></div>
 			</div>
-			<script></script>
-			<div class="cart-container container p-4">
+			<div class="cart-container container p-4 mb-3">
 				<h5 class="ms-2">장바구니</h5>
 				<div
 					class="cart d-flex justify-content-evenly align-items-center"
@@ -99,46 +53,124 @@
 					ondragover="allowDrop(event)">
 				</div>
 			</div>
-			<script>
-				// input value 받아오기
-				let searchInput = '';
-				$('#searchInput').on('input', () => {
-					searchInput = $('#searchInput').val();
-					if (searchInput.length > 0) {
-						let itemSearched = productsCopy.filter((product) => {
-							return product.title.includes(searchInput);
-						});
-						$('.product-list').html('');
-						makeProductCard(itemSearched);
-					} else {
-						searchInput = '';
-						$('#searchInput').val('');
-						$('.product-list').html('');
-						makeProductCard(products);
-					}
-				});
-				// 장바구니 기능
-				if ($('.cart').children('.card').length == 0) {
-					$('.cart').append(`<h5 class="f-white">여기로 드래그</h5>`);
-				}
-				function allowDrop(e) {
-					e.preventDefault();
-				}
-				function dragItem(e) {
-					e.dataTransfer.setData('itemId', `cart-${e.target.id}`);
-				}
-				function dropItem(e) {
-					e.preventDefault();
-					$('h5').remove('.f-white');
-					let data = e.dataTransfer.getData('itemId');
-					$(`#${data}`).removeClass('d-hide');
-					e.target.appendChild(document.getElementById(data));
-				}
-				$(document).on('click', '.item-add', (e) => {
-					let itemId = $(e.target).parent().parent().data('id');
-					makeCartList(itemId);
-				});
-			</script>
+			<div class="bill container">
+				<h5>최종가격</h5>
+				<p id="totalPrice">합계 : </p>
+				<button class="btn btn-dark ms-0">구매하기</button>
+			</div>
 		</div>
+		<script>
+			// ajax를 사용한 데이터 request
+			let products = [];
+			let productsCopy = [];
+			$.get('store.json').done((data) => {
+				makeProductCard(data.products);
+				products = data.products;
+				productsCopy = data.products;
+			});
+			// 데이터 형성 시  html 추가
+			function makeProductCard(array) {
+				array.forEach((product) => {
+					$('.product-list').append(
+						`
+						<div class="col-3">
+							<div class="card" id="item${product.id}" data-id="${product.id}" style="width: 18rem" draggable="true" ondragstart="dragItem(event)">
+									<img src="/img/${product.photo}" class="card-img-top" alt="..." draggable="false"/>
+									<div class="card-body">
+										<h5 class="card-title">${product.title}</h5>
+										<p class="f-grey">${product.brand}</p>
+										<p class="card-text">가격 : ${product.price}</p>
+										<button type="button" class="btn btn-dark item-add">담기</button>
+									</div>
+								</div>
+								<div class="card cart-item d-hide" id="cart-item${product.id}" data-id="${product.id}" style="width: 14rem;" draggable="false">
+									<img src="/img/${product.photo}" class="card-img-top" style="width: auto" alt="..." draggable="false" />
+									<div class="card-body text-center">
+										<h5 class="card-title" id="itemTitle">${product.title}</h5>
+										<p class="f-grey" id="itemBrand">${product.brand}</p>
+										<p class="card-text" id="itemPrice">${product.price}</p>
+										<input type="text" class="form-control" id="itemNumInput" placeholder="수량 입력" value="1" />
+									</div>
+								</div>
+							</div>
+							`
+					);
+				});
+			}
+			function makeCartList(dataId) {
+				if ($('.cart').children(`#cart-item${dataId}`).length == 0) {
+					$('h5').remove('.f-white');
+					$(`#cart-item${dataId}`).removeClass('d-hide');
+					$('.cart')[0].appendChild(document.getElementById(`cart-item${dataId}`));
+					itemNumList[dataId] = Number($('#itemNumInput').val());
+					priceList[dataId] = products[dataId].price;
+					getTotalPrice(priceList);
+				} else {
+					itemNumList[dataId]++;
+					priceList[dataId] = products[dataId].price * itemNumList[dataId];
+					$(`#cart-item${dataId}`).children().children('#itemNumInput').val(itemNumList[dataId]);
+					getTotalPrice(priceList);
+				}
+			}
+			function getTotalPrice() {
+				let totalPrice = priceList.reduce((a, b) => a + b);
+				$('#totalPrice').html('합계 : ' + totalPrice);
+			}
+			// input value 받아오기
+			let searchInput = '';
+			$('#searchInput').on('input', () => {
+				searchInput = $('#searchInput').val();
+				if (searchInput.length > 0) {
+					let itemSearched = productsCopy.filter((product) => {
+						return product.title.includes(searchInput);
+					});
+					$('.product-list').html('');
+					makeProductCard(itemSearched);
+				} else {
+					searchInput = '';
+					$('#searchInput').val('');
+					$('.product-list').html('');
+					makeProductCard(products);
+				}
+			});
+			// 장바구니 기능
+			if ($('.cart').children('.card').length == 0) {
+				$('.cart').append(`<h5 class="f-white">여기로 드래그</h5>`);
+			}
+			function allowDrop(e) {
+				e.preventDefault();
+			}
+			function dragItem(e) {
+				e.dataTransfer.setData('itemId', $(e.target).data('id'));
+			}
+			function dropItem(e) {
+				e.preventDefault();
+				let data = e.dataTransfer.getData('itemId');
+				makeCartList(data);
+			}
+			$(document).on('click', '.item-add', (e) => {
+				let itemId = $(e.target).parent().parent().data('id');
+				makeCartList(itemId);
+			});
+			function getTotalPrice(priceList) {
+				let totalPrice = priceList.reduce((a, b) => a + b);
+				$('#totalPrice').html('합계 : ' + totalPrice);
+			}
+			// 금액 계산
+			priceList = [];
+			itemNumList = [];
+			$(document).on('input', '#itemNumInput', (e) => {
+				let itemId = $(e.target).parent().parent().data('id');
+				let itemPrice = Number($(e.target).siblings('#itemPrice').text());
+				let itemNum = Number($(e.target).val());
+				if (itemNum == 0) {
+					itemNum = 1;
+				}
+				itemNumList[itemId] = itemNum;
+				let itemTotalPrice = itemPrice * itemNum;
+				priceList[itemId] = itemTotalPrice;
+				getTotalPrice(priceList);
+			});
+		</script>
 	</body>
 </html>
