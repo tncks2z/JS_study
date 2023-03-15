@@ -22,3 +22,25 @@
 .d-hide {
 	display: none;
 }
+.modal-bg {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 10;
+	padding: 30px;
+	visibility: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal-content {
+	z-index: 15;
+	background-color: white;
+	border-radius: 5px;
+	padding: 50px;
+	width: 50%;
+}
+.show-modal {
+	visibility: visible;
+}
