@@ -41,7 +41,7 @@
 		<div class="bill-bg">
 			<div class="bill-content" id="bill">
 				<canvas id="canvas" width="400"></canvas>
-				<button type="button" class="btn btn-dark" id="bill-close-btn">닫기</button>
+				<button type="button" class="btn btn-dark rounded-0" id="bill-close-btn">닫기</button>
 			</div>
 		</div>
 		<nav class="navbar navbar-expand bg-dark sticky-top z-3" data-bs-theme="dark">
@@ -148,7 +148,7 @@
 					}
 				}
 				let canvas = document.getElementById('canvas');
-				let canvasHeigth = (cnt + 1) * 200 + 400;
+				let canvasHeigth = (cnt + 1) * 200 + 100;
 				canvas.height = canvasHeigth;
 				let c = canvas.getContext('2d');
 				let today = new Date();
@@ -158,13 +158,15 @@
 				let hours = today.getHours(); // 시
 				let minutes = today.getMinutes(); // 분
 				let seconds = today.getSeconds(); // 초
-				c.font = 'normal bold 40px Arial, dotum';
-				c.fillText('영수증', 10, 100);
-				c.font = 'normal 20px Arial, dotum';
-				c.fillText(year + '-' + month + '-' + date, 10, 150);
-				c.fillText(hours + ':' + minutes + ':' + seconds, 130, 150);
 				let row = 0;
 				let scaleY = 0;
+				c.font = 'normal bold 40px Arial, dotum';
+				c.fillText('영수증', 10, 100);
+				c.font = 'normal 17px Arial, dotum';
+				c.fillText('이름 : ' + localStorage.getItem('userName'), 10, 150);
+				c.fillText('연락처 : ' + localStorage.getItem('userAddress'), 10, 170);
+				c.fillText(year + '-' + month + '-' + date, 10, 190);
+				c.fillText(hours + ':' + minutes + ':' + seconds, 100, 190);
 				products.forEach(function (item, index) {
 					if (priceList[index] != null) {
 						scaleY = Number((row + 1) * 250);
@@ -177,9 +179,10 @@
 					}
 				});
 				c.fillText('총 합계 : ' + totalPrice, 10, scaleY + 200);
-				c.fillText('이름 : ' + localStorage.getItem('userName'), 10, scaleY + 250);
-				c.fillText('연락처 : ' + localStorage.getItem('userAddress'), 10, scaleY + 300);
 			}
+			$('#bill-close-btn').click(() => {
+				$('.bill-bg').removeClass('show-bill');
+			});
 			// input value 받아오기
 			let searchInput = '';
 			$('#searchInput').on('input', () => {
