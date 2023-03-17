@@ -32,10 +32,16 @@
 						<label for="floatingAddress">연락처</label>
 					</div>
 					<div class="d-flex">
-						<button type="submit" class="btn btn-dark me-3" id="submit">입력완료</button>
+						<button type="button" class="btn btn-dark me-3" id="submit">입력완료</button>
 						<button type="button" class="btn btn-dark" id="close">닫기</button>
 					</div>
 				</form>
+			</div>
+		</div>
+		<div class="bill-bg">
+			<div class="bill-content" id="bill">
+				<canvas id="canvas" width="400"></canvas>
+				<button type="button" class="btn btn-dark" id="bill-close-btn">닫기</button>
 			</div>
 		</div>
 		<nav class="navbar navbar-expand bg-dark sticky-top z-3" data-bs-theme="dark">
@@ -71,13 +77,14 @@
 					ondragover="allowDrop(event)">
 				</div>
 			</div>
-			<div class="bill container">
+			<div class="container">
 				<h5>최종가격</h5>
 				<p id="totalPrice">합계 : </p>
 				<button type="button" class="btn btn-dark ms-0" id="buy-btn">구매하기</button>
 			</div>
 		</div>
 		<script>
+			localStorage.clear();
 			// ajax를 사용한 데이터 request
 			let products = [];
 			let productsCopy = [];
@@ -111,13 +118,14 @@
 									</div>
 								</div>
 							</div>
-							`
+						`
 					);
 				});
 			}
 			function makeCartList(dataId) {
 				$('#buy-btn').attr('disabled', false);
 				if ($('.cart').children(`#cart-item${dataId}`).length == 0) {
+					// 장바구니에 담는 값이 처음 넣는 값인 경우
 					$('h5').remove('.f-white');
 					$(`#cart-item${dataId}`).removeClass('d-hide');
 					$('.cart')[0].appendChild(document.getElementById(`cart-item${dataId}`));
@@ -131,9 +139,46 @@
 					getTotalPrice(priceList);
 				}
 			}
-			function getTotalPrice() {
-				let totalPrice = priceList.reduce((a, b) => a + b);
-				$('#totalPrice').html('합계 : ' + totalPrice);
+			// 영수증
+			function showBill(productArray) {
+				let cnt = 0;
+				for (let i = 0; i < products.length; i++) {
+					if (priceList[i] != null) {
+						cnt++;
+					}
+				}
+				let canvas = document.getElementById('canvas');
+				let canvasHeigth = (cnt + 1) * 200 + 400;
+				canvas.height = canvasHeigth;
+				let c = canvas.getContext('2d');
+				let today = new Date();
+				let year = today.getFullYear(); // 년도
+				let month = today.getMonth() + 1; // 월
+				let date = today.getDate(); // 날짜
+				let hours = today.getHours(); // 시
+				let minutes = today.getMinutes(); // 분
+				let seconds = today.getSeconds(); // 초
+				c.font = 'normal bold 40px Arial, dotum';
+				c.fillText('영수증', 10, 100);
+				c.font = 'normal 20px Arial, dotum';
+				c.fillText(year + '-' + month + '-' + date, 10, 150);
+				c.fillText(hours + ':' + minutes + ':' + seconds, 130, 150);
+				let row = 0;
+				let scaleY = 0;
+				products.forEach(function (item, index) {
+					if (priceList[index] != null) {
+						scaleY = Number((row + 1) * 250);
+						c.fillText(products[index].title, 10, scaleY);
+						c.fillText(products[index].brand, 10, scaleY + 30);
+						c.fillText('가격 : ' + products[index].price, 10, scaleY + 60);
+						c.fillText('수량 : ' + itemNumList[index], 10, scaleY + 90);
+						c.fillText('합계 : ' + priceList[index], 10, scaleY + 120);
+						row = row + 0.8;
+					}
+				});
+				c.fillText('총 합계 : ' + totalPrice, 10, scaleY + 200);
+				c.fillText('이름 : ' + localStorage.getItem('userName'), 10, scaleY + 250);
+				c.fillText('연락처 : ' + localStorage.getItem('userAddress'), 10, scaleY + 300);
 			}
 			// input value 받아오기
 			let searchInput = '';
@@ -171,9 +216,15 @@
 				let itemId = $(e.target).parent().parent().data('id');
 				makeCartList(itemId);
 			});
+			let totalPrice = 0;
 			function getTotalPrice(priceList) {
-				let totalPrice = priceList.reduce((a, b) => a + b);
+				totalPrice = priceList.reduce((a, b) => a + b);
 				$('#totalPrice').html('합계 : ' + totalPrice);
+			}
+			function updateLocalStorage(priceList, itemNumList, totalPrice) {
+				localStorage.setItem('priceList', JSON.stringify(priceList));
+				localStorage.setItem('itemNumList', JSON.stringify(itemNumList));
+				localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
 			}
 			// 금액 계산
 			let priceList = [];
@@ -193,11 +244,12 @@
 			// 구매하기
 			$('#buy-btn').click(function () {
 				$('#modal').addClass('show-modal');
+				updateLocalStorage(priceList, itemNumList, totalPrice);
 			});
-			$('#close-btn').click(function () {
+			$('#close').click(function () {
 				$('#modal').removeClass('show-modal');
 			});
-			$('.bg-black').on('click', (e) => {
+			$('.modal-bg').on('click', (e) => {
 				if (e.target == e.currentTarget) {
 					$('#modal').removeClass('show-modal');
 				}
@@ -209,15 +261,18 @@
 			$('#submit').click(function (e) {
 				let nameInput = $('#floatingName').val();
 				let addressInput = $('#floatingAddress').val();
-				if (addressInput == '') {
-					e.preventDefault();
-					$('#floatingAddress').css('border-color', 'red');
-					$('#floatingAddress').focus();
-				}
 				if (nameInput == '') {
-					e.preventDefault();
 					$('#floatingName').css('border-color', 'red');
 					$('#floatingName').focus();
+				} else if (addressInput == '') {
+					$('#floatingAddress').css('border-color', 'red');
+					$('#floatingAddress').focus();
+				} else {
+					localStorage.setItem('userName', nameInput);
+					localStorage.setItem('userAddress', addressInput);
+					showBill(products);
+					$('#modal').removeClass('show-modal');
+					$('.bill-bg').addClass('show-bill');
 				}
 			});
 		</script>
